@@ -6,8 +6,8 @@ import { TabsPage } from './tabs.page';
 const routes: Routes = [
   {
     path: '',
-    component: TabsPage
-  },
+    component: TabsPage,
+    children: [
   {
     path: 'calendar',
     loadChildren: () => import('./calendar/calendar.module').then( m => m.CalendarPageModule)
@@ -23,7 +23,14 @@ const routes: Routes = [
   {
     path: 'account',
     loadChildren: () => import('./account/account.module').then( m => m.AccountPageModule)
-  }
+  },
+  {
+    path: '',
+    redirectTo: '/tabs/calendar',
+    pathMatch: 'full'
+  },
+],
+}
 ];
 
 @NgModule({
