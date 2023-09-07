@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { CalendarPageRoutingModule } from './calendar-routing.module';
 
 import { CalendarPage } from './calendar.page';
+import { Component, OnInit } from '@angular/core';
+declare var $: any;
 
 @NgModule({
   imports: [
@@ -17,4 +19,13 @@ import { CalendarPage } from './calendar.page';
   ],
   declarations: [CalendarPage]
 })
-export class CalendarPageModule {}
+export class CalendarPageModule implements OnInit{
+
+  ngOnInit() {
+    $(document).ready(function () {
+      $('#calendar').evoCalendar({
+        // Add your calendar settings here
+      });
+    });
+  }
+}

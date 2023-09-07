@@ -112,7 +112,10 @@
               }
             ],
             "styles": ["src/theme/variables.scss", "src/global.scss"],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/evo-calendar/dist/evo-calendar.min.js"
+            ]
           },
           "configurations": {
             "ci": {
