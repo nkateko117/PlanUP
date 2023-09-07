@@ -1,22 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { FolderPage } from './folder.page';
+import { CalenderPage } from './calender.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: FolderPage
-  },
-  {
-    path: 'calender',
-    loadChildren: () => import('./calender/calender.module').then( m => m.CalenderPageModule)
+    component: CalenderPage
   }
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class FolderPageRoutingModule {}
+export class CalenderPageRoutingModule {}
