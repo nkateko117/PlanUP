@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { UserVM, LoginVM } from '../Models/user';
+import { StudentModule, Activity } from '../Models/course';
+import { Observable } from 'rxjs';
+import { TokenDecoderService } from '../Authentication/token-decoder.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,5 +13,80 @@ import { Router } from '@angular/router';
 export class DataService {
 
   apiUrl= 'https://localhost:7161/api/'; 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private TokenDec : TokenDecoderService,
+    private router: Router) { }
+
+  Register(user: UserVM): Observable<string> {
+    return this.httpClient.post<{message: string}>(`${this.apiUrl}Authentication/Register`, user)
+    .pipe(
+      map(response => response.message)
+    );
+  }
+
+  Login(user: LoginVM): Observable<string> {
+    return this.httpClient.post<{ token: string }>(`${this.apiUrl}Authentication/Login`, user)
+      .pipe(
+        map(response => response.token)
+      );
+  }
+
+  logout(): Observable<any> {
+    const token: any = localStorage.getItem('token');
+    if(!this.TokenDec.checkTokenExp(token))
+    {
+      localStorage.clear();
+      this.router.navigate(['/login']);
+    }
+    return this.httpClient.post<any>(`${this.apiUrl}Security/Logout`, null);
+  }
+
+  GetStudentModule(ID: string): Observable<StudentModule[]> {
+    return this.httpClient.get<StudentModule[]>(`${this.apiUrl}Course/GetStudentModules/${ID}`);
+  }
+  
+  GetActivities(ID: string): Observable<Activity[]> {
+    return this.httpClient.get<Activity[]>(`${this.apiUrl}Course/GetActivities/${ID}`);
+  }
+
+  AddModule(module : StudentModule): Observable<string> {
+    return this.httpClient.post<{message: string}>(`${this.apiUrl}Course/AddModule`, module)
+    .pipe(
+      map(response => response.message)
+    );
+  }
+
+  AddActivity(activity : Activity): Observable<string> {
+    return this.httpClient.post<{message: string}>(`${this.apiUrl}Course/AddActivity`, activity)
+    .pipe(
+      map(response => response.message)
+    );
+  }
+
+  UpdateActivity(activity : Activity): Observable<string> {
+    return this.httpClient.post<{message: string}>(`${this.apiUrl}Course/UpdateActivity`, activity)
+    .pipe(
+      map(response => response.message)
+    );
+  }
+
+  UpdateModule(module : StudentModule): Observable<string> {
+    return this.httpClient.post<{message: string}>(`${this.apiUrl}Course/UpdateModule`, module)
+    .pipe(
+      map(response => response.message)
+    );
+  }
+
+  DeleteModule(id : number): Observable<string>{
+    return this.httpClient.delete<{message: string}>(`${this.apiUrl}Course/DeleteModule/${id}`)
+    .pipe(
+      map(response => response.message)
+    );
+  }
+
+  DeleteActivity(id : number): Observable<string>{
+    return this.httpClient.delete<{message: string}>(`${this.apiUrl}Course/DeleteActivity/${id}`)
+    .pipe(
+      map(response => response.message)
+    );
+  }
 }

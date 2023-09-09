@@ -1,0 +1,27 @@
+<ion-content class="background" [style.background-image]="'url(\'assets/images/LoginBack.jpg\')'">
+  <div class="ion-padding h-100">
+    <div class="ion-text-center">
+      <ion-card class="login-card">
+        <ion-card-header>
+          <ion-card-title class="fw-bold text-uppercase">Login</ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="ion-text-center">
+          <p class="text-white-50">Please enter your Username and Password!</p>
+
+          <ion-item class="mb-4">
+            <ion-input [(ngModel)]="email" type="email" placeholder="Username *"></ion-input>
+          </ion-item>
+
+          <ion-item class="mb-4">
+            <ion-input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" placeholder="Password *"></ion-input>
+            <ion-icon name="{{ showPassword ? 'eye' : 'eye-off' }}" slot="end" (click)="toggleShowPassword()"></ion-icon>
+          </ion-item>
+
+          <p class="small mb-5 pb-lg-2"><a class="text-white-50" routerLink="/forgot-password">Forgot password?</a></p>
+
+          <ion-button expand="full" (click)="login()">Login</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
