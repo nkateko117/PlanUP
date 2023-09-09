@@ -28,6 +28,7 @@
     "@capacitor/status-bar": "5.0.6",
     "@ionic/angular": "^7.0.0",
     "evo-calendar": "^1.1.3",
+    "ionic7-calendar": "^2.1.0",
     "ionicons": "^7.0.0",
     "jquery": "^3.7.1",
     "rxjs": "~7.8.0",

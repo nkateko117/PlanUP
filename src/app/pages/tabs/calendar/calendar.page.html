@@ -1,14 +1,19 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Calendar Page
+      Calendar
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-
+<!--
 <ion-content>
-  <!--
-  <app-calendar></app-calendar>
-  -->
+  <calendar
+    [eventSource]="eventSource"
+    [calendarMode]="'month'"
+    [showEventDetail]="true"
+    (onEventSelected)="onEventSelected($event)"
+  ></calendar>
+  <ion-button expand="full" (click)="addEvent()">Add Event</ion-button>
 </ion-content>
+-->
