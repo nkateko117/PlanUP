@@ -60,6 +60,14 @@
               "target": "Package",
               "version": "[1.16.0, )"
             },
+            "SendGrid": {
+              "target": "Package",
+              "version": "[9.28.1, )"
+            },
+            "SendGrid.SmtpApi": {
+              "target": "Package",
+              "version": "[1.4.6, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
