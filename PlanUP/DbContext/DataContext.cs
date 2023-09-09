@@ -25,10 +25,9 @@ namespace PlanUP.DbContext
         }
 
         public DbSet<AppUser> AppUser { get; set; }
-
-
-
-
+        public DbSet<StudentModule> StudentModule { get; set; }
+        public DbSet<Activity> Activity { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

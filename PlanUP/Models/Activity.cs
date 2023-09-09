@@ -12,5 +12,14 @@ namespace PlanUP.Models
         public string ActivityType { get; set; }
         public float? Grade { get; set; }
         public DateTime Date { get; set; }
+
+        [ForeignKey("AppUser")]
+        public string UserID { get; set; }
+        public AppUser? User { get; set; }
+
+        [ForeignKey("StudentModule")]
+        public int ModuleID { get; set; }
+        public StudentModule? StudentModule { get; set; }
+
     }
 }
