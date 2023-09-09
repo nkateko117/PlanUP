@@ -17,9 +17,7 @@ namespace PlanUP.Models
         public string UserID { get; set; }
         public AppUser? User { get; set; }
 
-        [ForeignKey("StudentModule")]
         public int ModuleID { get; set; }
-        public StudentModule? StudentModule { get; set; }
 
     }
 }

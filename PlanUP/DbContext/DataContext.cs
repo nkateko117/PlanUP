@@ -12,8 +12,9 @@ namespace PlanUP.DbContext
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            ChangeTracker.LazyLoadingEnabled = false;
+            // Comment out these lines
+            // ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            // ChangeTracker.LazyLoadingEnabled = false;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -24,26 +25,24 @@ namespace PlanUP.DbContext
             optionsBuilder.EnableSensitiveDataLogging();
         }
 
-        public DbSet<AppUser> AppUser { get; set; }
         public DbSet<StudentModule> StudentModule { get; set; }
         public DbSet<Activity> Activity { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-    
-    
+          
             /*
-            modelBuilder.Entity<TutorialType>()
+            modelBuilder.Entity<StudentModule>()
                 .HasData(
                 new
                 {
-                    TutorialTypeID = 1,
-                    TutorialTypeName = "Tutorial Video"
+                    ModuleID = 1,
+                    ModuleName = "Test Module",
+                    UserID = "224retgg55482fewf"
                 }
                 );
             */
-
         }
 
     }

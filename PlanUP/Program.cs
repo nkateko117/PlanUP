@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using PlanUP.Models;
 using System.Text.Json.Serialization;
 using PlanUP.DbContext;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = false;
+    options.User.RequireUniqueEmail = true;
+    options.Password.RequiredLength = 10;
+}).AddRoles<IdentityRole>()
+  .AddEntityFrameworkStores<DataContext>()
+  .AddDefaultTokenProviders();
+
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Debug));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,17 +84,6 @@ app.MapControllers();
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
-builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
-{
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireDigit = false;
-    options.User.RequireUniqueEmail = true;
-    options.Password.RequiredLength = 10;
-}).AddRoles<IdentityRole>()
-  .AddEntityFrameworkStores<DataContext>()
-  .AddDefaultTokenProviders();
 
 using (var scope = app.Services.CreateScope())
 {
