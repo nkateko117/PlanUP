@@ -29,7 +29,7 @@ namespace PlanUP.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, new { message = "Could not retrieve Student Modules" });
+                return StatusCode(500, "Could not retrieve Student Modules" );
             }
         }
 

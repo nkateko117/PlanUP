@@ -96,7 +96,7 @@ namespace PlanUP.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(LoginVM uvm)
+        public async Task<IActionResult> Login(LoginVM uvm, [FromForm] IFormCollection formData)
         {
             var user = await _userManager.FindByNameAsync(uvm.EmailAddress);
 
@@ -128,7 +128,7 @@ namespace PlanUP.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(3),
+                Expires = DateTime.UtcNow.AddDays(90),
                 SigningCredentials = credentials,
                 Issuer = _configuration["Tokens:Issuer"],
                 Audience = _configuration["Tokens:Audience"]

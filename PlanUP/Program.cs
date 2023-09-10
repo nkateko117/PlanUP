@@ -7,6 +7,7 @@ using PlanUP.Models;
 using System.Text.Json.Serialization;
 using PlanUP.DbContext;
 using Microsoft.EntityFrameworkCore;
+using PlanUP.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,8 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
