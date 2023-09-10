@@ -5,9 +5,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">account</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{firstName}} {{lastName}}</ion-card-title>
+      <ion-card-subtitle>{{email}}</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-button fill="clear" (click)="logout()">Logout</ion-button>
+    <ion-button fill="clear">Delete Account</ion-button>
+  </ion-card>
 </ion-content>

@@ -33,7 +33,7 @@ export class ModulesPage implements OnInit {
       (modules: StudentModule[])=>{
         this.Modules=modules;
         localStorage.setItem('Modules', JSON.stringify(modules));
-
+        alert('Modules retrieved');
       },
       (error)=>{
         //alert('Error retrieving student modules: '+ error.error)

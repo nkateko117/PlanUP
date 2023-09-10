@@ -26,6 +26,18 @@ export class GradesPage implements OnInit {
   newActivity : Activity = new Activity;
   Modules : StudentModule [] = [];
 
+  colorArray: string[] = [
+    'primary',
+    'secondary',
+    'tertiary',
+    'success',
+    'warning',
+    'danger',
+    'light',
+    'medium',
+    'dark'
+  ];
+
   GetActivities(ID : string): void {
     this.userService.GetActivities(ID).subscribe(
       (activities: Activity[])=>{
@@ -68,6 +80,11 @@ export class GradesPage implements OnInit {
         alert('Error adding Activity: '+ error.error)
       });
     }
+  }
+
+  getRandomColor(): string {
+    const randomIndex = Math.floor(Math.random() * this.colorArray.length);
+    return this.colorArray[randomIndex];
   }
 
 }
