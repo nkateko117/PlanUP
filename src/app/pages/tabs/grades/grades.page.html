@@ -24,7 +24,7 @@
   <ng-template>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Add New Module</ion-title>
+        <ion-title>Add New Assessment</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="modal.dismiss()">Close</ion-button>
         </ion-buttons>
@@ -33,7 +33,7 @@
     <br><ion-content>
       <ion-list>
       <ion-item>
-        <ion-input labelPlacement="stacked" label="Enter the module name" [(ngModel)]="newActivity.activityName" placeholder="Module Name" required="Module Name is required"></ion-input>
+        <ion-input labelPlacement="stacked" label="Enter the assessment name" [(ngModel)]="newActivity.activityName" placeholder="Assessment Name" required="Assessment Name is required"></ion-input>
       </ion-item><br>
       
         <ion-item>
@@ -47,7 +47,7 @@
 
         <ion-item>
           <ion-select aria-label="Module" interface="popover" placeholder="Module" [(ngModel)]="newActivity.moduleID">
-            <ion-select-option *ngFor="let activity of Activities" [value]="activity.moduleID">{{ GetModuleName(activity.moduleID) }}</ion-select-option>
+            <ion-select-option *ngFor="let module of Modules" [value]="module.moduleID">{{ module.moduleName }}</ion-select-option>
           </ion-select>
         </ion-item><br>
 

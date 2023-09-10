@@ -17,6 +17,8 @@ export class GradesPage implements OnInit {
     this.token=localStorage.getItem('token');
       const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
       this.userID=userID;
+      this.GetStudentModules(userID);
+      this.GetActivities(userID);
   }
 
   token! : any;
@@ -75,6 +77,7 @@ export class GradesPage implements OnInit {
     this.userService.AddActivity(this.newActivity).subscribe(
       ()=>{
         alert('Activity Added successfully');
+        this.refreshPage();
       },
       (error)=>{
         alert('Error adding Activity: '+ error.error)
@@ -85,6 +88,10 @@ export class GradesPage implements OnInit {
   getRandomColor(): string {
     const randomIndex = Math.floor(Math.random() * this.colorArray.length);
     return this.colorArray[randomIndex];
+  }
+
+  refreshPage(): void {
+    window.location.reload();
   }
 
 }

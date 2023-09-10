@@ -49,10 +49,15 @@ export class ModulesPage implements OnInit {
     this.userService.AddModule(this.newModule).subscribe(
       ()=>{
         alert('Module Added successfully');
+        this.refreshPage();
       },
       (error)=>{
         alert('Error adding student module: '+ error.error)
       });
     }
+  }
+
+  refreshPage(): void {
+    window.location.reload();
   }
 }
