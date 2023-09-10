@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Identity.Web;
@@ -8,9 +7,11 @@ using System.Text.Json.Serialization;
 using PlanUP.DbContext;
 using Microsoft.EntityFrameworkCore;
 using PlanUP.Repositories;
+using DigiFiler_API.Factory;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 {
     policy.AllowAnyHeader();
@@ -18,14 +19,15 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
     policy.AllowAnyOrigin();
 }));
 
-// Add services to the container.
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
+{
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -35,8 +37,9 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
-        Description = "A one time token. Example: Bearer s23sds4t5tdgfhtrtre "
+        Description = "A one-time token. Example: Bearer s23sds4t5tdgfhtrtre"
     });
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -52,7 +55,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppUserClaimsPrincipalFactory>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
@@ -71,8 +76,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Debug));
 
 var app = builder.Build();
+app.UseCors("AllowAnyOrigin");
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -80,18 +85,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
-builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
 
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Student"};
+    var roles = new[] { "Student" };
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
@@ -101,4 +104,4 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-    app.Run();
+app.Run();
