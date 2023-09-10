@@ -1,8 +1,8 @@
 export class UserVM{
-    FirstName! : string;
-    LastName! : string;
-    Email! : string;
-    Password! : string;
+    firstName! : string;
+    lastName! : string;
+    email! : string;
+    password! : string;
 }
 
 export class LoginVM{

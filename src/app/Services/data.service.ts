@@ -12,22 +12,17 @@ import { TokenDecoderService } from '../Authentication/token-decoder.service';
 })
 export class DataService {
 
-  apiUrl= 'https://localhost:7161/api/'; 
+  apiUrl= 'https://localhost:7191/api/'; 
   constructor(private httpClient: HttpClient, private TokenDec : TokenDecoderService,
     private router: Router) { }
 
   Register(user: UserVM): Observable<string> {
-    return this.httpClient.post<{message: string}>(`${this.apiUrl}Authentication/Register`, user)
-    .pipe(
-      map(response => response.message)
-    );
+    return this.httpClient.post<string>(`${this.apiUrl}Authentication/Register`, user);
   }
 
   Login(user: LoginVM): Observable<string> {
-    return this.httpClient.post<{ token: string }>(`${this.apiUrl}Authentication/Login`, user)
-      .pipe(
-        map(response => response.token)
-      );
+    //alert(user.emailAddress + ' ' + user.password);
+    return this.httpClient.post<string>(`${this.apiUrl}Authentication/Login`, user);
   }
 
   logout(): Observable<any> {
@@ -37,7 +32,7 @@ export class DataService {
       localStorage.clear();
       this.router.navigate(['/login']);
     }
-    return this.httpClient.post<any>(`${this.apiUrl}Security/Logout`, null);
+    return this.httpClient.post<any>(`${this.apiUrl}Authentication/Logout`, null);
   }
 
   GetStudentModule(ID: string): Observable<StudentModule[]> {

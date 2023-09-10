@@ -5,9 +5,27 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">modules</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Modules</ion-card-title>
+      <ion-card-subtitle>A list of your modules</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ng-container *ngIf="Modules.length > 0">
+      <ion-list *ngFor="let module of Modules">
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img alt="Silhouette of mountains" src="https://www.vhv.rs/dpng/d/325-3251170_courses-icon-black-and-white-png-download-study.png" />
+          </ion-thumbnail>
+          <ion-label>module.moduleName</ion-label>
+        </ion-item>
+      </ion-list>
+      </ng-container>
+      <ng-container *ngIf="Modules.length < 1">
+        <tr>
+          <td colspan="2" class="text-center">No Modules To Display.</td>
+        </tr>
+      </ng-container>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

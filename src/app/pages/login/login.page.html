@@ -1,4 +1,4 @@
-<ion-content class="background" [style.background-image]="'url(\'assets/images/LoginBack.jpg\')'">
+<ion-content class="background" [style.background-image]="'url(\'./assets/images/background1.jpg\')'">
   <div class="ion-padding h-100">
     <div class="ion-text-center">
       <ion-card class="login-card">
@@ -17,9 +17,44 @@
             <ion-icon name="{{ showPassword ? 'eye' : 'eye-off' }}" slot="end" (click)="toggleShowPassword()"></ion-icon>
           </ion-item>
 
+          <p class="small mb-5 pb-lg-2"><a class="text-white-50" id="open-modal">New User? Click here to register</a></p>
           <p class="small mb-5 pb-lg-2"><a class="text-white-50" routerLink="/forgot-password">Forgot password?</a></p>
 
           <ion-button expand="full" (click)="login()">Login</ion-button>
+
+          <!--Modal-->
+          <ion-modal #modal trigger="open-modal" [presentingElement]="presentingElement">
+            <ng-template>
+              <ion-header>
+                <ion-toolbar>
+                  <ion-buttons slot="start">
+                    <ion-button color="medium">Cancel</ion-button>
+                  </ion-buttons>
+                  <ion-title>Modal</ion-title>
+                  <ion-buttons slot="end">
+                    <ion-button (click)="modal.dismiss()">Close</ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+              </ion-header>
+              <br><ion-content>
+                <ion-item>
+                  <ion-input labelPlacement="stacked" label="Enter your first name" [(ngModel)]="firstName" placeholder="Your first name" required="first name is required"></ion-input>
+                </ion-item><br>
+                <ion-item>
+                  <ion-input labelPlacement="stacked" label="Enter your last name" [(ngModel)]="lastName" placeholder="Your last name" required="last name is required"></ion-input>
+                </ion-item><br>
+                <ion-item>
+                  <ion-input labelPlacement="stacked" label="Enter your email address" [(ngModel)]="newEmail" placeholder="Your email address" required="email is required"></ion-input>
+                </ion-item><br>
+                <ion-item>
+                  <ion-input labelPlacement="stacked" label="Enter your new password" [(ngModel)]="newPassword" placeholder="Your new email address" required="password is required"></ion-input>
+                </ion-item><br>
+
+                <ion-button expand="full" (click)="register()">Register</ion-button>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+          <!--Modal End-->
         </ion-card-content>
       </ion-card>
     </div>

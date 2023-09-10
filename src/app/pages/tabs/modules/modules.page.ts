@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenDecoderService } from 'src/app/Authentication/token-decoder.service';
+import { StudentModule } from 'src/app/Models/course';
+import { DataService } from 'src/app/Services/data.service';
 
 @Component({
   selector: 'app-modules',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModulesPage implements OnInit {
 
-  constructor() { }
+  constructor(private decodeToke : TokenDecoderService, private userService : DataService) { }
 
   ngOnInit() {
+    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MGViYTZlZC0xNzIwLTRmZDAtYWM2YS01MGI5Mjg2NzNiOGYiLCJ1bmlxdWVfbmFtZSI6Im5rYXRla28ubWFsdWxla2UwM0BnbWFpbC5jb20iLCJGaXJzdE5hbWUiOiJOa2F0ZWtvIiwiTGFzdE5hbWUiOiJNYWx1bGVrZSIsIm5iZiI6MTY5NDM2MDg0MSwiZXhwIjoxNjk0MzcxNjQwLCJpYXQiOjE2OTQzNjA4NDEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxOTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE5MS8ifQ.1-nTlAhGfzRyo_ynEG6C4GaKo0omE2NCJZCjgkXDBh0')
+    this.token=localStorage.getItem('token');
+      const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
+      //alert(userID);
+      this.GetStudentModules(userID);
   }
 
+  token! : any;
+  Modules : StudentModule [] = [];
+  newModule : StudentModule = new StudentModule;
+
+  GetStudentModules(ID : string): void {
+    this.userService.GetStudentModule(ID).subscribe(
+      (modules: StudentModule[])=>{
+        this.Modules=modules;
+        localStorage.setItem('Modules', JSON.stringify(modules));
+
+      },
+      (error)=>{
+        alert('Error retrieving student modules: '+ error.error)
+      });
+  }
 }

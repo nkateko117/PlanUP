@@ -7,6 +7,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgCalendarModule } from 'ionic7-calendar';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './Authentication/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,9 +16,14 @@ import { NgCalendarModule } from 'ionic7-calendar';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    NgCalendarModule
+    NgCalendarModule,
+    HttpClientModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true},],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
