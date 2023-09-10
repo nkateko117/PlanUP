@@ -2,9 +2,9 @@ export class Activity{
     activityID! : number;
     activityName! : string;
     activityType! : string;
-    date! : number;
+    date! : Date;
     userID! : string;
-    moduleID! : string;
+    moduleID! : number;
 }
 
 export class StudentModule{
