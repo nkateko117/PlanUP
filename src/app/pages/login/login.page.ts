@@ -33,11 +33,7 @@ export class LoginPage implements OnInit {
     const token = localStorage.getItem('token');
     if(token)
     {
-     var role = this.tokenDecoder.decodeToken(token);
-     if(role == "Student")
-     {
-      //this.router.navigate(['/admin-home']);
-     }
+      this.router.navigate(['tabs/calender']);
     }
   }
 
@@ -50,7 +46,9 @@ export class LoginPage implements OnInit {
   {
     if(this.email.length<1 || this.password.length<1)
     {
-      alert("Your username or password cannot be empty")
+      //alert("Your username or password cannot be empty")
+      this.message = "Your username or password cannot be empty";
+      this.setOpen(true);
     }
 
     else{
@@ -79,16 +77,20 @@ export class LoginPage implements OnInit {
   {
     if(this.newEmail.length<1 || this.newPassword.length<1 || this.firstName.length<1 || this.lastName.length<1)
     {
-      alert("Please fill in all the required fields")
+      //alert("Please fill in all the required fields")
+      this.message = "Please fill in all the required fields";
+      this.setOpen(true);
     }
 
     else if(this.newPassword.length<10)
     {
-      alert("Your password should at least be 10 characters")
+      //alert("Your password should at least be 10 characters")
+      this.message = "Your password should at least be 10 characters";
+      this.setOpen(true);
     }
 
     else{
-    const loginData = {
+    const registerData = {
       firstName : this.firstName,
       lastName : this.lastName,
       email: this.newEmail,
@@ -96,15 +98,25 @@ export class LoginPage implements OnInit {
     };
   
     
-    this.userService.Register(loginData)
+    this.userService.Register(registerData)
       .subscribe(
         response => {
-          alert("You have been registered successfully into the system");
+          //alert("You have been registered successfully into the system");
+          this.message = "You have been registered successfully into the system";
+      this.setOpen(true);
       },
         async error => {
-          alert(error.error);
+          this.message = "You have been registered successfully into the system";
+      this.setOpen(true);
         }
       );
     }
+  }
+
+  message! : string;
+  isToastOpen = false;
+  top = 'top';
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
   }
 }
