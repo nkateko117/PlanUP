@@ -30,7 +30,7 @@ export class TokenDecoderService {
       firstName: decodedToken.FirstName,
       lastName: decodedToken.LastName,
       userRole : decodedToken.role,
-      email : decodedToken.name,
+      email : decodedToken.unique_name,
       userId : decodedToken.nameid
     }
     localStorage.setItem('user', JSON.stringify(user));

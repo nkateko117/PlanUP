@@ -40,16 +40,19 @@ export class GradesPage implements OnInit {
     'dark'
   ];
 
-  GetActivities(ID : string): void {
+  GetActivities(ID: string): void {
     this.userService.GetActivities(ID).subscribe(
-      (activities: Activity[])=>{
-        this.Activities = activities;
-        localStorage.setItem('Activities', JSON.stringify(activities));
+      (activities: Activity[]) => {
+        // Sort activities by date before assigning them to this.Activities
+        this.Activities = activities.sort((a, b) => (a.date > b.date ? 1 : -1));
+        localStorage.setItem('Activities', JSON.stringify(this.Activities));
       },
-      (error)=>{
-        //alert('Error retrieving student modules: '+ error.error)
-      });
+      (error) => {
+        // Handle error
+      }
+    );
   }
+  
 
   GetStudentModules(ID : string): void {
     this.userService.GetStudentModule(ID).subscribe(

@@ -36,7 +36,9 @@ export class AccountPage implements OnInit {
         this.router.navigate(['login']);
       },
       error => {
-        //this.router.navigate(['login']);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        this.router.navigate(['login']);
       }
     );
   }

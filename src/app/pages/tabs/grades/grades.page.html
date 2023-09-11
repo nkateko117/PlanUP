@@ -1,14 +1,15 @@
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Assessments</ion-title>
     <ion-buttons slot="end">
-      <ion-button id="open-add-modal">Add Assessments</ion-button>
+      <ion-button id="open-add-modal">Add Assessment</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ng-container *ngFor="let activity of Activities">
-<ion-card [color]="getRandomColor()">
+<ion-card [color]="getRandomColor()" class="shorter-card">
   <ion-card-header>
     <ion-card-title>{{activity.activityName}}</ion-card-title>
     <ion-card-subtitle>{{activity.activityType}}</ion-card-subtitle>
@@ -56,6 +57,11 @@
             <span slot="title">Select Due Date</span>
           </ion-datetime>
         </ion-item><br>
+
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="Grade?" [(ngModel)]="newActivity.grade" placeholder="Enter grade in % if available"></ion-input>
+        </ion-item><br>
+
       </ion-list>
       <ion-button expand="full" (click)="AddActivity()">Add Assessment</ion-button>
     </ion-content>

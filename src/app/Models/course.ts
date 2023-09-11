@@ -5,6 +5,7 @@ export class Activity{
     date! : Date;
     userID! : string;
     moduleID! : number;
+    grade! : number | null;
 }
 
 export class StudentModule{

@@ -1,5 +1,5 @@
 #background{
-    padding-top: 3%;
+    padding-top: 30%;
 }
 
 .password-toggle-icon {
@@ -10,3 +10,12 @@
     cursor: pointer;
   }
   
+  .ion-padding{
+    padding-top: 40%;
+  }
+
+  ion-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

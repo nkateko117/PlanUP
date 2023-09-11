@@ -1,0 +1,21 @@
+.shorter-card {
+    max-width: 80vw; /* You can adjust the percentage as needed */
+  }
+
+  ion-card {
+    margin: 0;
+    padding: 0%;
+    margin-bottom: 1px; /* Optional: Add some margin between cards if needed */
+  }
+
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
+    gap: 10px; /* Adjust the gap between cards as needed */
+  }
+
+  ion-toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

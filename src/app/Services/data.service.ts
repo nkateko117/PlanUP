@@ -21,8 +21,10 @@ export class DataService {
   }
 
   Login(user: LoginVM): Observable<string> {
-    //alert(user.emailAddress + ' ' + user.password);
-    return this.httpClient.post<string>(`${this.apiUrl}Authentication/Login`, user);
+    return this.httpClient.post<{ token: string }>(`${this.apiUrl}Authentication/Login`, user)
+    .pipe(
+      map(response => response.token)
+    );
   }
 
   logout(): Observable<any> {
