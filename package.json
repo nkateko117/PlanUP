@@ -27,6 +27,8 @@
     "@capacitor/keyboard": "5.0.6",
     "@capacitor/status-bar": "5.0.6",
     "@ionic/angular": "^7.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^15.1.1",
+    "bootstrap": "^5.3.1",
     "evo-calendar": "^1.1.3",
     "ionic7-calendar": "^2.1.0",
     "ionicons": "^7.0.0",
