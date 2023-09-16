@@ -1,66 +1,12 @@
-
-
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Assessment Calender</ion-title>
+    <ion-segment value="all">
+      <ion-segment-button value="all">
+        <ion-label>Upcoming</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        <ion-label>Overdue</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
-
-  <ng-container *ngFor="let activity of Activities" id="card" class="cards">
-    <!-- Check if the due date has not passed -->
-    <ng-container *ngIf="isDueDateValid(activity.date)">
-      <ion-card [color]="getRandomColor()" class="shorter-card">
-        <ion-card-header>
-          <ion-card-title>{{activity.activityName}}</ion-card-title>
-          <ion-card-subtitle>{{activity.activityType}}</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <p> Due: {{activity.date}}</p>
-          <p> {{GetModuleName(activity.moduleID)}}</p>
-        </ion-card-content>
-      </ion-card>
-    </ng-container>
-  </ng-container>
-
-
-<ion-modal #modal trigger="open-add-modal" [presentingElement]="presentingElement">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Add New Assessment</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="modal.dismiss()">Close</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <br><ion-content>
-      <ion-list>
-      <ion-item>
-        <ion-input labelPlacement="stacked" label="Enter the assessment name" [(ngModel)]="newActivity.activityName" placeholder="Assessment Name" required="Assessment Name is required"></ion-input>
-      </ion-item><br>
-      
-        <ion-item>
-          <ion-select aria-label="Assesment Type" interface="popover" placeholder="Select Assesment Type" [(ngModel)]="newActivity.activityType">
-            <ion-select-option value="Class Test">Class Test</ion-select-option>
-            <ion-select-option value="Semester Test">Semester Test</ion-select-option>
-            <ion-select-option value="Assignment">Assignment</ion-select-option>
-            <ion-select-option value="Assignment">Exam</ion-select-option>
-          </ion-select>
-        </ion-item><br>
-
-        <ion-item>
-          <ion-select aria-label="Module" interface="popover" placeholder="Module" [(ngModel)]="newActivity.moduleID">
-            <ion-select-option *ngFor="let module of Modules" [value]="module.moduleID">{{ module.moduleName }}</ion-select-option>
-          </ion-select>
-        </ion-item><br>
-
-        <ion-item>
-          <ion-datetime [(ngModel)]="newActivity.date">
-            <span slot="title">Select Due Date</span>
-          </ion-datetime>
-        </ion-item><br>
-      </ion-list>
-      <ion-button expand="full" (click)="AddActivity()">Add Assessment</ion-button>
-    </ion-content>
-  </ng-template>
-</ion-modal>

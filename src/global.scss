@@ -25,7 +25,22 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+/*
+@import '@fullcalendar/core/main.css';
+@import '@fullcalendar/timegrid/main.css';
+*/
+
 body {
   //background-color: skyblue;
   }
   
+  @media (prefers-color-scheme: light) {
+    :root {
+      /* Dark mode variables go here */
+    }
+  }
+  
+  /* Fallback for older browsers or manual mode */
+  body.light {
+    /* Dark mode variables go here */
+  }

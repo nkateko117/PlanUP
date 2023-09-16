@@ -9,6 +9,11 @@ import { AppComponent } from './app.component';
 import { NgCalendarModule } from 'ionic7-calendar';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './Authentication/auth.interceptor';
+import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
+
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction'; // for dateClick
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +23,7 @@ import { AuthInterceptor } from './Authentication/auth.interceptor';
     AppRoutingModule,
     NgCalendarModule,
     HttpClientModule,
+    FullCalendarModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {

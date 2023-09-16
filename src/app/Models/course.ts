@@ -6,6 +6,8 @@ export class Activity{
     userID! : string;
     moduleID! : number;
     grade! : number | null;
+    color! : string;
+    isComplete! : boolean;
 }
 
 export class StudentModule{

@@ -1,4 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Assessments</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar></ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar>
+  <ion-buttons slot="end">
+    <ion-button id="open-add-modal">Add Assessment</ion-button>
+  </ion-buttons>
+</ion-toolbar>
+</ion-header>
 
+<!--
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Assessments</ion-title>
@@ -7,6 +21,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+-->
 
 <ng-container *ngFor="let activity of Activities">
 <ion-card [color]="getRandomColor()" class="shorter-card">
