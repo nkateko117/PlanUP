@@ -10,6 +10,8 @@ namespace PlanUP.Models
         public int ActivityID { get; set; }
         public string ActivityName { get; set; }
         public string ActivityType { get; set; }
+        public string Color { get; set; }
+        public bool isComplete { get; set; }
         public float? Grade { get; set; }
         public DateTime Date { get; set; }
 
