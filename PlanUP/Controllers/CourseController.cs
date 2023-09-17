@@ -114,6 +114,10 @@ namespace PlanUP.Controllers
                 existingActivity.ActivityName = activity.ActivityName;
                 existingActivity.ActivityType = activity.ActivityType;
                 existingActivity.ModuleID = activity.ModuleID;
+                existingActivity.Date = activity.Date;
+                existingActivity.Color = activity.Color;
+                existingActivity.Grade = activity.Grade;
+                existingActivity.isComplete=activity.isComplete;
                 await _appDbContext.SaveChangesAsync();
                 return Ok(new { message = activity.ActivityName + " updated successfully" });
             }
