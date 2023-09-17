@@ -97,4 +97,25 @@ export class GradesPage implements OnInit {
     window.location.reload();
   }
 
+  getColor(activity : Activity) : any
+  {
+    if(activity.grade){
+    if(activity.grade>0 && activity.grade<40)
+    {
+      return 'danger';
+    }
+
+    else if(activity.grade>=41 && activity.grade<60)
+    {
+      return 'warning';
+    }
+
+    else if(activity.grade>=61 && activity.grade<=100)
+    {
+      return 'success';
+    }
+  }
+  else{return 'primary'}
+  }
+
 }

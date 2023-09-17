@@ -22,6 +22,7 @@ export class ModulesPage implements OnInit {
       const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
       this.userID=userID;
       this.GetStudentModules(userID);
+      //this.refreshPage();
   }
 
   token! : any;

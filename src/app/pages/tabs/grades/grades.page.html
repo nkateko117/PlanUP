@@ -1,40 +1,34 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Assessments</ion-title>
+    <ion-title>Grades</ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar></ion-searchbar>
   </ion-toolbar>
-  <ion-toolbar>
-  <ion-buttons slot="end">
-    <ion-button id="open-add-modal">Add Assessment</ion-button>
-  </ion-buttons>
-</ion-toolbar>
 </ion-header>
 
-<!--
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Assessments</ion-title>
-    <ion-buttons slot="end">
-      <ion-button id="open-add-modal">Add Assessment</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
--->
+<ion-content>
+  <ng-container *ngFor="let activity of Activities">
+    <ng-container *ngIf="activity.grade">
+    <ion-card [color]="getColor(activity)" class="shorter-card">
+      <ion-card-header>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <ion-card-title>{{ activity.activityName }}</ion-card-title>
+            <ion-card-subtitle>Type: {{ activity.activityType }}</ion-card-subtitle>
+            <ion-card-subtitle>Module: {{ GetModuleName(activity.moduleID) }}</ion-card-subtitle>
+          </div>
+          <div>
+            <ion-card-subtitle><h5>Grade:</h5></ion-card-subtitle>
+            {{activity.grade}}%
+          </div>
+        </div>
+      </ion-card-header>
+    </ion-card>
+  </ng-container>
+  </ng-container>
+</ion-content>
 
-<ng-container *ngFor="let activity of Activities">
-<ion-card [color]="getRandomColor()" class="shorter-card">
-  <ion-card-header>
-    <ion-card-title>{{activity.activityName}}</ion-card-title>
-    <ion-card-subtitle>{{activity.activityType}}</ion-card-subtitle>
-  </ion-card-header>
-  <ion-card-content>
-    <p> Due: {{activity.date}}</p>
-    <p> {{GetModuleName(activity.moduleID)}}</p>
-  </ion-card-content>
-</ion-card>
-</ng-container>
 
 <ion-modal #modal trigger="open-add-modal" [presentingElement]="presentingElement">
   <ng-template>

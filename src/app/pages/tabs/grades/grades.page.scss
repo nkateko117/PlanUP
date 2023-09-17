@@ -1,22 +1,28 @@
+ /*
 .shorter-card {
-    max-width: 80vw; /* You can adjust the percentage as needed */
+    max-width: 80vw;
   }
+ */
+ 
+ ion-card {
+  display: flex;
+  flex-flow: column-reverse;
+}
 
-  ion-card {
-    margin: 0;
-    padding: 0%;
-    margin-bottom: 1px; /* Optional: Add some margin between cards if needed */
-  }
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 10px; 
+}
 
-  .card-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
-    gap: 10px; /* Adjust the gap between cards as needed */
-  }
 
-  .cards {
-    display: flex;
-    flex-direction: column; /* Ensures cards are stacked vertically */
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-  }
+.cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#updateButton{
+  padding-left: 10%;
+}
