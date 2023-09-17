@@ -60,7 +60,8 @@ export class DataService {
   }
 
   UpdateActivity(activity : Activity): Observable<string> {
-    return this.httpClient.post<{message: string}>(`${this.apiUrl}Course/UpdateActivity`, activity)
+    var id = activity.activityID;
+    return this.httpClient.put<{message: string}>(`${this.apiUrl}Course/UpdateActivity/${id}`, activity)
     .pipe(
       map(response => response.message)
     );
@@ -68,7 +69,7 @@ export class DataService {
 
   UpdateModule(module : StudentModule): Observable<string> {
     var id = module.moduleID;
-    return this.httpClient.post<{message: string}>(`${this.apiUrl}Course/UpdateModule/${id}`, module)
+    return this.httpClient.put<{message: string}>(`${this.apiUrl}Course/UpdateModule/${id}`, module)
     .pipe(
       map(response => response.message)
     );

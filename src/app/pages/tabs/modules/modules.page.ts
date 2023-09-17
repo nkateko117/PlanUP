@@ -76,7 +76,7 @@ export class ModulesPage implements OnInit {
         this.message = "Module Updated successfully";
       this.setOpen(true);
       this.GetStudentModules(this.userID);
-      this.modal.dismiss();
+      this.modal2.dismiss();
       },
       (error)=>{
         this.message = "Error updating module, try again later";
@@ -91,7 +91,7 @@ export class ModulesPage implements OnInit {
         this.message = "Module deleted successfully";
       this.setOpen(true);
       this.GetStudentModules(this.userID);
-      this.modal.dismiss();
+      this.modal2.dismiss();
       },
       (error)=>{
         this.message = "Error deleting module, try again later";
