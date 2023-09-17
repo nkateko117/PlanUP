@@ -5,11 +5,6 @@
   <ion-toolbar>
     <ion-searchbar [debounce]="1000" (ionChange)="handleChange($event)"></ion-searchbar>
   </ion-toolbar>
-  <ion-toolbar>
-  <ion-buttons slot="end">
-    <ion-button id="open-add-modal">Add Assessment</ion-button>
-  </ion-buttons>
-</ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -193,3 +188,9 @@
     [position]= "top"
     (didDismiss)="setOpen(false)"
   ></ion-toast>
+
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button id="open-add-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    </ion-fab>

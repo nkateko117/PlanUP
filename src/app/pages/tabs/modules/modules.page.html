@@ -1,9 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Modules</ion-title>
-    <ion-buttons slot="end">
-      <ion-button id="open-add-modal">Add Module</ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -81,3 +78,9 @@
     [position]= "top"
     (didDismiss)="setOpen(false)"
   ></ion-toast>
+
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button id="open-add-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    </ion-fab>

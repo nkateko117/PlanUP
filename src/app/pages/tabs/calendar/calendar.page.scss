@@ -1,75 +1,28 @@
-/*
-@import '~@fullcalendar/core/main.css';
-@import '~@fullcalendar/timegrid/main.css';
-*/
-
+ /*
 .shorter-card {
-    max-width: 80vw; /* You can adjust the percentage as needed */
+    max-width: 80vw;
   }
-
-  ion-card {
-    margin: 0;
-    padding: 0%;
-    margin-bottom: 1px; /* Optional: Add some margin between cards if needed */
-  }
+ */
+ 
+ ion-card {
+  display: flex;
+  flex-flow: column-reverse;
+}
 
   .card-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
-    gap: 10px; /* Adjust the gap between cards as needed */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px; 
   }
+  
 
-  ion-toolbar {
+  .cards {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-
-
-//
-
-.calendar {
-  margin: 10px;
-}
-
-.header-row {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: center;
-}
-
-.day-header {
-  padding: 5px;
-}
-
-.time-slot-row {
-  border-top: 1px solid #ccc;
-}
-
-.time-slot {
-  padding: 5px;
-  text-align: center;
-  font-weight: bold;
-  border-right: 1px solid #ccc;
-}
-
-.calendar-cell {
-  border-right: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  text-align: center;
-  padding: 10px;
-}
-
-.event {
-  background-color: #007bff;
-  color: #fff;
-  padding: 5px;
-  margin: 2px;
-  border-radius: 5px;
-}
-
-.button {
-  margin: 0;
-  padding: 0;
-}
  
+  #updateButton{
+    padding-left: 10%;
+  }

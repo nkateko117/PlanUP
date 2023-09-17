@@ -1,10 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/Services/data.service';
 import { TokenDecoderService } from 'src/app/Authentication/token-decoder.service';
 import { Activity, StudentModule } from 'src/app/Models/course';
-//import { MbscCalendarEvent } from '@mobiscroll/angular';
-import { Calendar } from '@fullcalendar/core'
-import timeGridPlugin from '@fullcalendar/timegrid'
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-calendar',
@@ -14,21 +12,15 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 export class CalendarPage  implements OnInit {
 
   constructor(private decodeToke : TokenDecoderService, private userService : DataService) { }
-  
-  calendarOptions: any = {
-    pickMode: 'single',
-    weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  };
-
-  selectedDate! : string;
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
     this.token=localStorage.getItem('token');
       const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
       this.userID=userID;
-     // this.GetStudentModules(userID);
+      this.GetStudentModules(userID);
       this.GetActivities(userID);
+      
   }
 
 
@@ -38,92 +30,8 @@ export class CalendarPage  implements OnInit {
   Activities : Activity [] = [];
   newActivity : Activity = new Activity;
   Modules : StudentModule [] = [];
-
-  GetActivities(ID: string): void {
-    this.userService.GetActivities(ID).subscribe(
-      (activities: Activity[]) => {
-        // Sort activities by date before assigning them to this.Activities
-        this.Activities = activities; //.sort((a, b) => (a.date > b.date ? 1 : -1));
-        localStorage.setItem('Activities', JSON.stringify(this.Activities));
-      },
-      (error) => {
-        // Handle error
-      }
-    );
-  }
-  /*
-  days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  times: string[] = [
-    '8:00 AM',
-    '9:00 AM',
-    '10:00 AM',
-    '11:00 AM',
-    '12:00 PM',
-    '1:00 PM',
-    '2:00 PM',
-    '3:00 PM',
-    '4:00 PM',
-    '5:00 PM',
-  ];
-
-  events: { [key: string]: string[] } = {};
-
-  addEvent(day: string, time: string) {
-    const eventText = prompt('Enter event description:');
-    if (eventText) {
-      const key = `${day}_${time}`;
-      if (!this.events[key]) {
-        this.events[key] = [];
-      }
-      this.events[key].push(eventText);
-    }
-  }
-
-  getEvents(day: string, time: string): string[] {
-    const key = `${day}_${time}`;
-    return this.events[key] || [];
-  }
-  */
-  /*
-  constructor(private decodeToke : TokenDecoderService, private userService : DataService) { }
-
-  @ViewChild('calendar') calendarEl!: ElementRef;
-
-  ngOnInit() {
-    this.initializeCalendar();
-  }
-
-  initializeCalendar() {
-    const calendar = new Calendar(this.calendarEl.nativeElement, {
-      plugins: [timeGridPlugin],
-      initialView: 'timeGridWeek', // Display a weekly view
-      events: [
-        // Add your events here
-        {
-          title: 'Event 1',
-          start: '2023-09-14T10:00:00',
-          end: '2023-09-14T12:00:00',
-        },
-        {
-          title: 'Event 2',
-          start: '2023-09-15T14:00:00',
-          end: '2023-09-15T16:00:00',
-        },
-        // Add more events as needed
-      ],
-    });
-
-    calendar.render();
-  }
-*/
-
-/*
-  token! : any;
-  presentingElement : any;
-  userID! : string;
-  Activities : Activity [] = [];
-  newActivity : Activity = new Activity;
-  Modules : StudentModule [] = [];
+  results : any;
+  selectedActivity! : Activity;
 
   colorArray: string[] = [
     'primary',
@@ -143,9 +51,11 @@ export class CalendarPage  implements OnInit {
         // Sort activities by date before assigning them to this.Activities
         this.Activities = activities.sort((a, b) => (a.date > b.date ? 1 : -1));
         localStorage.setItem('Activities', JSON.stringify(this.Activities));
+        this.results = activities;
       },
       (error) => {
-        // Handle error
+        this.message = "Error retrieving activities, make sure you are logged in";
+      this.setOpen(true);
       }
     );
   }
@@ -157,7 +67,6 @@ export class CalendarPage  implements OnInit {
         this.Modules=modules;
       },
       (error)=>{
-        //alert('Error retrieving student modules: '+ error.error)
       });
   }
 
@@ -170,20 +79,68 @@ export class CalendarPage  implements OnInit {
   AddActivity(): void {
     if(this.newActivity.activityName.length<1 || this.newActivity.activityType.length<1 || this.newActivity.date==null ||
       this.newActivity.moduleID == null){
-      alert('Please fill all the required fields');
+      this.message = "Please fill all the required fields";
+      this.setOpen(true);
+      //this.modal.dismiss();
     }
     else{
+      if(this.newActivity.color==null)
+      {
+        this.newActivity.color='primary';
+      }
+
     this.newActivity.userID = this.userID;
     this.userService.AddActivity(this.newActivity).subscribe(
       ()=>{
-        alert('Activity Added successfully');
-        this.refreshPage();
+        this.message = "Activity Added Successfully";
+      this.setOpen(true);
       },
       (error)=>{
-        alert('Error adding Activity: '+ error.error)
+        this.message = "Error adding Activity, try again later";
+      this.setOpen(true);
       });
     }
   }
+
+  UpdateActivity(): void {
+    if(this.selectedActivity.activityName.length<1 || this.selectedActivity.activityType.length<1 || this.selectedActivity.date==null ||
+      this.selectedActivity.moduleID == null){
+      this.message = "Please fill all the required fields";
+      this.setOpen(true);
+      //this.modal2.dismiss();
+    }
+    else{
+      if(this.newActivity.color==null)
+      {
+        this.newActivity.color='primary';
+      }
+
+    //this.newActivity.userID = this.userID;
+    this.userService.UpdateActivity(this.selectedActivity).subscribe(
+      ()=>{
+        this.message = "Activity Updated Successfully";
+      this.setOpen(true);
+      },
+      (error)=>{
+        this.message = "Error Updating Activity, try again later";
+      this.setOpen(true);
+      });
+    }
+  }
+
+  DeleteActivity(): void {
+    this.userService.DeleteModule(this.selectedActivity.activityID).subscribe(
+      ()=>{
+        this.message = "Activity deleted successfully";
+      this.setOpen(true);
+      this.GetStudentModules(this.userID);
+      //this.modal2.dismiss();
+      },
+      (error)=>{
+        this.message = "Error deleting activity, try again later";
+      this.setOpen(true);
+      });
+  } 
 
   getRandomColor(): string {
     const randomIndex = Math.floor(Math.random() * this.colorArray.length);
@@ -194,10 +151,36 @@ export class CalendarPage  implements OnInit {
     window.location.reload();
   }
 
-  isDueDateValid(dueDate: Date): boolean {
-    const currentDate = new Date(dueDate);
-    return dueDate >= currentDate; // Return true if the due date is in the future or today
+  handleChange(event : Event | any) {
+    const query = event.target.value.toLowerCase();
+    var name; var type;
+     name = this.Activities.filter((d) => d.activityName.toLowerCase().indexOf(query) > -1);
+     type = this.Activities.filter((d) => d.activityType.toLowerCase().indexOf(query) > -1);
+    
+     if(name)
+     {
+      this.results = name;
+     }
+     else
+     {
+      this.results = type;
+     }
   }
-  */
+
+  message! : string;
+  isToastOpen = false;
+  top = 'top';
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
+  }
+
+  selectActivity(activityID : number)
+  {
+    var activity = this.Activities.find(a=>a.activityID==activityID);
+    if(activity){
+    this.selectedActivity = activity;
+    //this.modal2.present();
+  }
+  }
 
 }
