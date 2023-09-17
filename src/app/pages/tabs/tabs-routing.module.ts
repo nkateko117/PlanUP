@@ -30,7 +30,11 @@ const routes: Routes = [
     pathMatch: 'full'
   },
 ],
-}
+},  {
+    path: 'assessments',
+    loadChildren: () => import('./assessments/assessments.module').then( m => m.AssessmentsPageModule)
+  }
+
 ];
 
 @NgModule({
