@@ -1,3 +1,11 @@
 ion-item {
     --padding-start: 0;
   }
+
+  #updateButton{
+    padding-left: 10%;
+  }
+
+  #updateInput::part(form-field) .input-wrapper .input-placeholder {
+    text-align: center;
+  }

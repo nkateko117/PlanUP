@@ -25,16 +25,16 @@ const routes: Routes = [
     loadChildren: () => import('./account/account.module').then( m => m.AccountPageModule)
   },
   {
+    path: 'assessments',
+    loadChildren: () => import('./assessments/assessments.module').then( m => m.AssessmentsPageModule)
+  },
+  {
     path: '',
     redirectTo: '/tabs/calendar',
     pathMatch: 'full'
   },
 ],
-},  {
-    path: 'assessments',
-    loadChildren: () => import('./assessments/assessments.module').then( m => m.AssessmentsPageModule)
-  }
-
+},
 ];
 
 @NgModule({

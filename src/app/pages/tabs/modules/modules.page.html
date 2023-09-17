@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>modules</ion-title>
+    <ion-title>Modules</ion-title>
     <ion-buttons slot="end">
       <ion-button id="open-add-modal">Add Module</ion-button>
     </ion-buttons>
@@ -10,18 +10,18 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Modules</ion-card-title>
+      <ion-card-title>Modules/Courses</ion-card-title>
       <ion-card-subtitle>A list of your modules</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <ng-container *ngIf="Modules.length > 0">
       <ion-list *ngFor="let module of Modules">
-        <ion-item>
+        <ion-item (click)="selectModule(module.moduleID)">
           <ion-thumbnail slot="start">
-            <img alt="Silhouette of mountains" src="https://www.vhv.rs/dpng/d/325-3251170_courses-icon-black-and-white-png-download-study.png" />
+            <img alt="Course" src="https://www.vhv.rs/dpng/d/325-3251170_courses-icon-black-and-white-png-download-study.png" />
           </ion-thumbnail>
-          <ion-label>{{module.moduleName}}</ion-label>
-        </ion-item>
+          <ion-label>{{ module.moduleName }}</ion-label>
+        </ion-item>        
       </ion-list>
       </ng-container>
       <ng-container *ngIf="Modules.length < 1">
@@ -51,3 +51,33 @@
     </ion-content>
   </ng-template>
 </ion-modal>
+
+<ion-modal #modal2 trigger="open-view-modal" [presentingElement]="presentingElement">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Manage Module</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modal2.dismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <br><ion-content>
+      <ion-item>
+        <ion-input id="updateInput" labelPlacement="floating" label="Enter the module name" [(ngModel)]="selectedModule.moduleName" placeholder="Module Name" required="Module Name is required"></ion-input>
+      </ion-item><br>
+      <!-- Update Button -->
+      <ion-button expand="half" size="small" (click)="UpdateModule()" id="updateButton">Update Module</ion-button>
+      <!-- Delete Button with Red Color -->
+      <ion-button expand="half" size="small" (click)="DeleteModule()" color="danger">Delete Module</ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-toast
+    [isOpen]="isToastOpen"
+    message= '{{message}}'
+    [duration]="5000"
+    [position]= "top"
+    (didDismiss)="setOpen(false)"
+  ></ion-toast>

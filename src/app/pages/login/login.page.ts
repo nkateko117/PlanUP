@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/Services/data.service';
 import { TokenDecoderService } from 'src/app/Authentication/token-decoder.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,8 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  @ViewChild('modal2', { static: true }) modal2!: IonModal;
+  @ViewChild('modal', { static: true }) modal!: IonModal;
 
   email: string;
   password: string;
@@ -62,12 +65,11 @@ export class LoginPage implements OnInit {
         response => {
           const token = (response as any).result as string; // Extract the token from the 'result' property
           localStorage.setItem('token', token);
-          var role = this.tokenDecoder.decodeInitialToken(token);
-          // Route based on the user's role
-         this.router.navigate(['tabs']);
+         this.router.navigate(['tabs/calendar']);
       },
         async error => {
-          alert(error.error.message);
+          this.message = error.error;
+        this.setOpen(true);
         }
       );
     }
@@ -104,6 +106,9 @@ export class LoginPage implements OnInit {
           //alert("You have been registered successfully into the system");
           this.message = "You have been registered successfully into the system";
       this.setOpen(true);
+      this.modal.dismiss();
+      //this.refreshPage();
+      //this.presentingElement.close();
       },
         async error => {
           this.message = "You have been registered successfully into the system";
@@ -111,6 +116,20 @@ export class LoginPage implements OnInit {
         }
       );
     }
+  }
+
+  resetPassword()
+  {
+    this.message = "A password reset link has been sent to your email";
+      this.setOpen(true);
+      //this.refreshPage();
+      //this.presentingElement.close();
+      //this.router.navigate(['login']);
+      this.modal2.dismiss();
+  }
+
+  refreshPage(): void {
+    window.location.reload();
   }
 
   message! : string;

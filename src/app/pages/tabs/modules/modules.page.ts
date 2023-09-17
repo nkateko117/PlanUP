@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TokenDecoderService } from 'src/app/Authentication/token-decoder.service';
 import { StudentModule } from 'src/app/Models/course';
 import { DataService } from 'src/app/Services/data.service';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-modules',
@@ -9,6 +10,8 @@ import { DataService } from 'src/app/Services/data.service';
   styleUrls: ['./modules.page.scss'],
 })
 export class ModulesPage implements OnInit {
+  @ViewChild('modal', { static: true }) modal!: IonModal;
+  @ViewChild('modal2', { static: true }) modal2!: IonModal;
 
   constructor(private decodeToke : TokenDecoderService, private userService : DataService) { }
 
@@ -18,13 +21,13 @@ export class ModulesPage implements OnInit {
     this.token=localStorage.getItem('token');
       const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
       this.userID=userID;
-      //alert(userID);
       this.GetStudentModules(userID);
   }
 
   token! : any;
   Modules : StudentModule [] = [];
   newModule : StudentModule = new StudentModule;
+  selectedModule! : StudentModule;
   presentingElement : any;
   userID! : string;
 
@@ -33,31 +36,86 @@ export class ModulesPage implements OnInit {
       (modules: StudentModule[])=>{
         this.Modules=modules;
         localStorage.setItem('Modules', JSON.stringify(modules));
-        alert('Modules retrieved');
       },
       (error)=>{
-        //alert('Error retrieving student modules: '+ error.error)
+        this.message = "Error retrieving student modules, make sure you are logged in";
+      this.setOpen(true);
       });
   }
 
   AddModule(): void {
     if(this.newModule.moduleName.length<1){
-      alert('Module Name is required');
+      this.message = "Module Name is required";
+      this.setOpen(true);
     }
     else{
     this.newModule.userID = this.userID;
     this.userService.AddModule(this.newModule).subscribe(
       ()=>{
-        alert('Module Added successfully');
-        this.refreshPage();
+        this.message = "Module Added successfully";
+      this.setOpen(true);
+      this.GetStudentModules(this.userID);
+      this.modal.dismiss();
       },
       (error)=>{
-        alert('Error adding student module: '+ error.error)
+        this.message = "Error adding module, make sure you are logged in";
+      this.setOpen(true);
       });
     }
   }
 
+  UpdateModule(): void {
+    if(this.selectedModule.moduleName.length<1){
+      this.message = "Module Name is required";
+      this.setOpen(true);
+    }
+    else{
+    //this.newModule.userID = this.userID;
+    this.userService.UpdateModule(this.selectedModule).subscribe(
+      ()=>{
+        this.message = "Module Updated successfully";
+      this.setOpen(true);
+      this.GetStudentModules(this.userID);
+      this.modal.dismiss();
+      },
+      (error)=>{
+        this.message = "Error updating module, try again later";
+      this.setOpen(true);
+      });
+    }
+  }
+
+  DeleteModule(): void {
+    this.userService.DeleteModule(this.selectedModule.moduleID).subscribe(
+      ()=>{
+        this.message = "Module deleted successfully";
+      this.setOpen(true);
+      this.GetStudentModules(this.userID);
+      this.modal.dismiss();
+      },
+      (error)=>{
+        this.message = "Error deleting module, try again later";
+      this.setOpen(true);
+      });
+  }  
+
   refreshPage(): void {
     window.location.reload();
+  }
+
+  message! : string;
+  isToastOpen = false;
+  top = 'top';
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
+  }
+
+  selectModule(moduleID : number)
+  {
+    var module = this.Modules.find(a=>a.moduleID==moduleID);
+    if(module){
+    this.selectedModule = module;
+    this.modal2.present();
+  }
   }
 }

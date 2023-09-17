@@ -67,7 +67,8 @@ export class DataService {
   }
 
   UpdateModule(module : StudentModule): Observable<string> {
-    return this.httpClient.post<{message: string}>(`${this.apiUrl}Course/UpdateModule`, module)
+    var id = module.moduleID;
+    return this.httpClient.post<{message: string}>(`${this.apiUrl}Course/UpdateModule/${id}`, module)
     .pipe(
       map(response => response.message)
     );
