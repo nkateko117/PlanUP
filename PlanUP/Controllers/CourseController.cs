@@ -139,7 +139,7 @@ namespace PlanUP.Controllers
                 _appDbContext.Set<StudentModule>().Remove(module);
                 await _appDbContext.SaveChangesAsync();
 
-                return Ok();
+                return Ok(new { message = "Module Deleted Successfully" });
             }
             catch (Exception)
             {
