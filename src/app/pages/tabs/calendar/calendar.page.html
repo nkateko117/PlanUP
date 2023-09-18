@@ -37,20 +37,18 @@
   <ion-content>
     <ng-container *ngFor="let activity of Activities">
       <ng-container *ngIf="calculateDaysRemaining(activity.date)<=-1">
-      <ion-card [color]="activity.color" class="shorter-card" (click)="selectActivity(activity.activityID)">
+      <ion-card [color]="getColor(activity)" class="shorter-card" (click)="selectActivity(activity.activityID)">
         <ion-card-header>
           <ion-card-title>{{ activity.activityName }}</ion-card-title>
           <ion-card-subtitle>Type: {{ activity.activityType }}</ion-card-subtitle>
           <ion-card-subtitle>Due: {{ activity.date | date: 'EEEE, dd MMM yyyy HH:mm' }}</ion-card-subtitle>
           <ion-card-subtitle>Module: {{ GetModuleName(activity.moduleID) }}</ion-card-subtitle>
           <ion-card-subtitle>Due: {{ calculateDaysRemaining(activity.date) }} days ago</ion-card-subtitle>
+          <!-- Tick icon button here -->
+        <ion-button *ngIf="activity.isComplete==false" (click)="completeActivity(activity)">
+          <ion-icon name="checkmark"></ion-icon>
+        </ion-button>
         </ion-card-header>
-        <ion-buttons slot="end">
-          <!-- Add your tick icon button here -->
-          <ion-button (click)="completeActivity(activity)">
-            <ion-icon name="checkmark"></ion-icon> <!-- You can replace "checkmark" with your desired icon name -->
-          </ion-button>
-        </ion-buttons>
       </ion-card>
     </ng-container>
     </ng-container>
