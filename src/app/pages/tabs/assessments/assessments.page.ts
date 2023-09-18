@@ -34,7 +34,6 @@ export class AssessmentsPage implements OnInit {
 
   handleRefresh(event : any) {
     setTimeout(() => {
-      // Any calls to load data go here
       event.target.complete();
     }, 2000);
   }
@@ -96,7 +95,6 @@ export class AssessmentsPage implements OnInit {
       this.newActivity.moduleID == null){
       this.message = "Please fill all the required fields";
       this.setOpen(true);
-      this.modal.dismiss();
     }
     else{
       if(this.newActivity.color==null)
@@ -107,8 +105,12 @@ export class AssessmentsPage implements OnInit {
     this.newActivity.userID = this.userID;
     this.userService.AddActivity(this.newActivity).subscribe(
       ()=>{
+        this.GetActivities(this.userID);
         this.message = "Activity Added Successfully";
       this.setOpen(true);
+      this.modal.dismiss();
+      this.handleRefresh(event);
+      this.newActivity=new Activity;
       },
       (error)=>{
         this.message = "Error adding Activity, try again later";
@@ -122,7 +124,6 @@ export class AssessmentsPage implements OnInit {
       this.selectedActivity.moduleID == null){
       this.message = "Please fill all the required fields";
       this.setOpen(true);
-      this.modal2.dismiss();
     }
     else{
       if(this.newActivity.color==null)
@@ -133,8 +134,12 @@ export class AssessmentsPage implements OnInit {
     //this.newActivity.userID = this.userID;
     this.userService.UpdateActivity(this.selectedActivity).subscribe(
       ()=>{
+        this.GetActivities(this.userID);
         this.message = "Activity Updated Successfully";
       this.setOpen(true);
+      this.handleRefresh(event);
+      this.modal2.dismiss();
+      this.selectedActivity=new Activity;
       },
       (error)=>{
         this.message = "Error Updating Activity, try again later";
@@ -144,12 +149,15 @@ export class AssessmentsPage implements OnInit {
   }
 
   DeleteActivity(): void {
-    this.userService.DeleteModule(this.selectedActivity.activityID).subscribe(
+    this.userService.DeleteActivity(this.selectedActivity.activityID).subscribe(
       ()=>{
         this.message = "Activity deleted successfully";
       this.setOpen(true);
       this.GetStudentModules(this.userID);
       this.modal2.dismiss();
+      this.handleRefresh(event);
+      this.GetActivities(this.userID);
+      this.selectedActivity=new Activity;
       },
       (error)=>{
         this.message = "Error deleting activity, try again later";

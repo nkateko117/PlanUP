@@ -32,17 +32,15 @@ export class LoginPage implements OnInit {
   constructor(private userService : DataService, private router: Router, private tokenDecoder: TokenDecoderService,) {
     this.email = '';
     this.password = '';
-
-    const token = localStorage.getItem('token');
-    if(token)
-    {
-      this.router.navigate(['tabs/calender']);
-    }
   }
 
   ngOnInit(): void {
     this.presentingElement = document.querySelector('.ion-page');
-    //localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MGViYTZlZC0xNzIwLTRmZDAtYWM2YS01MGI5Mjg2NzNiOGYiLCJ1bmlxdWVfbmFtZSI6Im5rYXRla28ubWFsdWxla2UwM0BnbWFpbC5jb20iLCJGaXJzdE5hbWUiOiJOa2F0ZWtvIiwiTGFzdE5hbWUiOiJNYWx1bGVrZSIsIm5iZiI6MTY5NDM2MDg0MSwiZXhwIjoxNjk0MzcxNjQwLCJpYXQiOjE2OTQzNjA4NDEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxOTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE5MS8ifQ.1-nTlAhGfzRyo_ynEG6C4GaKo0omE2NCJZCjgkXDBh0');
+    const token = localStorage.getItem('token');
+    if(token)
+    {
+      this.router.navigate(['tabs/calendar']);
+    }
   }
 
   login() 
@@ -66,6 +64,7 @@ export class LoginPage implements OnInit {
           const token = (response as any).result as string; // Extract the token from the 'result' property
           localStorage.setItem('token', token);
          this.router.navigate(['tabs/calendar']);
+         this.refreshPage();
       },
         async error => {
           this.message = error.error;
@@ -102,10 +101,11 @@ export class LoginPage implements OnInit {
     
     this.userService.Register(registerData)
       .subscribe(
-        response => {
+       async response => {
           //alert("You have been registered successfully into the system");
           this.message = "You have been registered successfully into the system";
-      this.setOpen(true);
+      await this.setOpen(true);
+      //this.refreshPage();
       this.modal.dismiss();
       //this.refreshPage();
       //this.presentingElement.close();
@@ -137,5 +137,9 @@ export class LoginPage implements OnInit {
   top = 'top';
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
+    if(isOpen==true)
+    {
+      this.refreshPage();
+    }
   }
 }

@@ -84,6 +84,7 @@ export class ModulesPage implements OnInit {
       this.setOpen(true);
       this.GetStudentModules(this.userID);
       this.modal.dismiss();
+      this.newModule = new StudentModule;
       },
       (error)=>{
         this.message = "Error adding module, make sure you are logged in";
@@ -105,6 +106,7 @@ export class ModulesPage implements OnInit {
       this.setOpen(true);
       this.GetStudentModules(this.userID);
       this.modal2.dismiss();
+      this.selectedModule = new StudentModule;
       },
       (error)=>{
         this.message = "Error updating module, try again later";
@@ -114,8 +116,9 @@ export class ModulesPage implements OnInit {
   }
 
   DeleteModule(): void {
+    this.GetActivities(this.userID);
     var activities = this.Activities.filter(a=>a.moduleID==this.selectedModule.moduleID);
-    if(activities)
+    if(activities.length>0)
     {
       this.message = "Module has activities linked to it";
       this.setOpen(true);
@@ -128,6 +131,7 @@ export class ModulesPage implements OnInit {
       this.setOpen(true);
       this.GetStudentModules(this.userID);
       this.modal2.dismiss();
+      this.selectedModule = new StudentModule;
       },
       (error)=>{
         this.message = "Error deleting module, try again later";

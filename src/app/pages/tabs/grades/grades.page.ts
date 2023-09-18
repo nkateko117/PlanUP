@@ -119,12 +119,12 @@ export class GradesPage implements OnInit {
       return 'danger';
     }
 
-    else if(activity.grade>=41 && activity.grade<60)
+    else if(activity.grade>=40 && activity.grade<60)
     {
       return 'warning';
     }
 
-    else if(activity.grade>=61 && activity.grade<=100)
+    else if(activity.grade>=60 && activity.grade<=100)
     {
       return 'success';
     }
