@@ -167,7 +167,7 @@ namespace PlanUP.Controllers
                 _appDbContext.Set<Activity>().Remove(activity);
                 await _appDbContext.SaveChangesAsync();
 
-                return Ok();
+                return Ok(new { message = "Activity Deleted Successfully" });
             }
             catch (Exception)
             {
