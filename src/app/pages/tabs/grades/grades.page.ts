@@ -21,6 +21,19 @@ export class GradesPage implements OnInit {
       this.GetActivities(userID);
   }
 
+  ionViewDidEnter() {
+    this.GetStudentModules(this.userID);
+    this.GetActivities(this.userID);
+    this.handleRefresh(event);
+  }
+  
+  handleRefresh(event : any) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.target.complete();
+    }, 2000);
+  }
+
   token! : any;
   presentingElement : any;
   userID! : string;
@@ -46,6 +59,7 @@ export class GradesPage implements OnInit {
         // Sort activities by date before assigning them to this.Activities
         this.Activities = activities.sort((a, b) => (a.date > b.date ? 1 : -1));
         localStorage.setItem('Activities', JSON.stringify(this.Activities));
+        this.results = activities;
       },
       (error) => {
         // Handle error
@@ -116,6 +130,24 @@ export class GradesPage implements OnInit {
     }
   }
   else{return 'primary'}
+  }
+
+  results : any;
+  searchQuery! : string;
+  handleChange() {
+    const query = this.searchQuery.toLowerCase();
+    var name; var type;
+     name = this.Activities.filter((d) => d.activityName.toLowerCase().indexOf(query) > -1);
+     type = this.Activities.filter((d) => d.activityType.toLowerCase().indexOf(query) > -1);
+    
+     if(name)
+     {
+      this.results = name;
+     }
+     else
+     {
+      this.results = type;
+     }
   }
 
 }

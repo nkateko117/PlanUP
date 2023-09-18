@@ -31,15 +31,16 @@ export class AccountPage implements OnInit {
   {
     this.userService.logout().subscribe(
       response => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        localStorage.clear();
         this.router.navigate(['login']);
       },
       error => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        localStorage.clear();
         this.router.navigate(['login']);
       }
     );
+  }
+
+  ionViewDidEnter() {
   }
 }

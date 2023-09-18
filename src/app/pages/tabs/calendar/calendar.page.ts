@@ -20,7 +20,7 @@ export class CalendarPage  implements OnInit {
       this.userID=userID;
       this.GetStudentModules(userID);
       this.GetActivities(userID);
-      
+      this.due = 'upcoming';
   }
 
 
@@ -32,6 +32,7 @@ export class CalendarPage  implements OnInit {
   Modules : StudentModule [] = [];
   results : any;
   selectedActivity! : Activity;
+  due! : any;
 
   colorArray: string[] = [
     'primary',
@@ -181,6 +182,51 @@ export class CalendarPage  implements OnInit {
     this.selectedActivity = activity;
     //this.modal2.present();
   }
+  }
+
+  calculateDaysRemaining(dueDate: Date): number {
+    const today = new Date();
+    const due = new Date(dueDate);
+    const timeDifference = due.getTime() - today.getTime();
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24)); // Calculate days remaining
+    return daysRemaining;
+  }
+  
+  completeActivity(activity : Activity)
+  {
+    this.selectedActivity = activity;
+    this.selectedActivity.isComplete = true;
+    this.UpdateActivity();
+  }
+
+  changeSegment(seg : number)
+  {
+    if(seg==1)
+    {
+      this.due='upcoming'
+    }
+    else if(seg==2)
+    {
+      this.due='overdue'
+    }
+  }
+
+  getColor(activity : Activity) : any
+  {
+    var duedate = this.calculateDaysRemaining(activity.date);
+    if(activity.isComplete==true)
+    {
+      return 'dark';
+    }
+
+    else if(duedate<7)
+    {
+      return 'danger';
+    }
+    else 
+    {
+      return activity.color;
+    }
   }
 
 }

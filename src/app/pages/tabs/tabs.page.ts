@@ -12,4 +12,8 @@ export class TabsPage implements OnInit {
   ngOnInit() {
   }
 
+  refreshPage(): void {
+    window.location.reload();
+  }
+
 }

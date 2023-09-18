@@ -3,12 +3,12 @@
     <ion-title>Grades</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar></ion-searchbar>
+    <ion-searchbar [(ngModel)]="searchQuery" (ionChange)="handleChange()"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ng-container *ngFor="let activity of Activities">
+  <ng-container *ngFor="let activity of results">
     <ng-container *ngIf="activity.grade">
     <ion-card [color]="getColor(activity)" class="shorter-card">
       <ion-card-header>

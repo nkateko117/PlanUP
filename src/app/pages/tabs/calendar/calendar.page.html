@@ -1,57 +1,62 @@
 <ion-header>
   <ion-toolbar>
     <ion-segment value="all">
-      <ion-segment-button value="all">
+      <ion-segment-button value="all" (click)="changeSegment(1)">
         <ion-label>Upcoming</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="favorites">
+      <ion-segment-button value="favorites" (click)="changeSegment(2)">
         <ion-label>Overdue</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
+<ng-container *ngIf="due=='upcoming'">
 <ion-content>
-  <ng-container *ngFor="let activity of results">
-  <ion-card [color]="activity.color" class="shorter-card" (click)="selectActivity(activity.activityID)">
-    <ion-card-header>
-      <ion-card-title>{{activity.activityName}}</ion-card-title>
-      <ion-card-subtitle>Type: {{activity.activityType}}</ion-card-subtitle>
-      <ion-card-subtitle> Due: {{ activity.date | date: 'EEEE, dd MMM yyyy HH:mm'}} </ion-card-subtitle>
-      <ion-card-subtitle>Module: {{GetModuleName(activity.moduleID)}}</ion-card-subtitle>
-      <ion-card-subtitle>Status: {{ activity.isComplete ? 'Completed' : 'Not Complete' }}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
+  <ng-container *ngFor="let activity of Activities">
+    <ng-container *ngIf="calculateDaysRemaining(activity.date)>-1">
+    <ion-card [color]="getColor(activity)" class="shorter-card" (click)="selectActivity(activity.activityID)">
+      <ion-card-header>
+        <ion-card-title>{{ activity.activityName }}</ion-card-title>
+        <ion-card-subtitle>Type: {{ activity.activityType }}</ion-card-subtitle>
+        <ion-card-subtitle>Due: {{ activity.date | date: 'EEEE, dd MMM yyyy HH:mm' }}</ion-card-subtitle>
+        <ion-card-subtitle>Module: {{ GetModuleName(activity.moduleID) }}</ion-card-subtitle>
+        <ion-card-subtitle>Due In: {{ calculateDaysRemaining(activity.date) }} days</ion-card-subtitle>
+        <!-- Tick icon button here -->
+        <ion-button *ngIf="activity.isComplete==false" (click)="completeActivity(activity)">
+          <ion-icon name="checkmark"></ion-icon>
+        </ion-button>
+      </ion-card-header>
+    </ion-card>
   </ng-container>
-  </ion-content>
-  
-  <!--
+  </ng-container>
+</ion-content>
+</ng-container>
+
+<ng-container *ngIf="due=='overdue'">
   <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Assessments</ion-card-title>
-      <ion-card-subtitle>A list of your assessments</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ng-container *ngIf="Activities.length > 0">
-      <ion-list *ngFor="let activity of Activities">
-        <ion-item (click)="selectActivity(activity.activityID)">
-          <ion-thumbnail slot="start">
-            <img alt="Course" src="https://www.vhv.rs/dpng/d/325-3251170_courses-icon-black-and-white-png-download-study.png" />
-          </ion-thumbnail>
-          <ion-label>{{ activity.activityName }}</ion-label>
-        </ion-item>        
-      </ion-list>
-      </ng-container>
-      <ng-container *ngIf="Activities.length < 1">
-        <tr>
-          <td colspan="2" class="text-center">No Modules To Display.</td>
-        </tr>
-      </ng-container>
-    </ion-card-content>
-  </ion-card>
+    <ng-container *ngFor="let activity of Activities">
+      <ng-container *ngIf="calculateDaysRemaining(activity.date)<=-1">
+      <ion-card [color]="activity.color" class="shorter-card" (click)="selectActivity(activity.activityID)">
+        <ion-card-header>
+          <ion-card-title>{{ activity.activityName }}</ion-card-title>
+          <ion-card-subtitle>Type: {{ activity.activityType }}</ion-card-subtitle>
+          <ion-card-subtitle>Due: {{ activity.date | date: 'EEEE, dd MMM yyyy HH:mm' }}</ion-card-subtitle>
+          <ion-card-subtitle>Module: {{ GetModuleName(activity.moduleID) }}</ion-card-subtitle>
+          <ion-card-subtitle>Due: {{ calculateDaysRemaining(activity.date) }} days ago</ion-card-subtitle>
+        </ion-card-header>
+        <ion-buttons slot="end">
+          <!-- Add your tick icon button here -->
+          <ion-button (click)="completeActivity(activity)">
+            <ion-icon name="checkmark"></ion-icon> <!-- You can replace "checkmark" with your desired icon name -->
+          </ion-button>
+        </ion-buttons>
+      </ion-card>
+    </ng-container>
+    </ng-container>
   </ion-content>
-  -->
+  </ng-container>
+
   
   <ion-modal #modal trigger="open-add-modal" [presentingElement]="presentingElement">
     <ng-template>

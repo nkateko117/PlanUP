@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TokenDecoderService } from 'src/app/Authentication/token-decoder.service';
-import { StudentModule } from 'src/app/Models/course';
+import { StudentModule, Activity } from 'src/app/Models/course';
 import { DataService } from 'src/app/Services/data.service';
 import { IonModal } from '@ionic/angular';
 
@@ -22,7 +22,20 @@ export class ModulesPage implements OnInit {
       const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
       this.userID=userID;
       this.GetStudentModules(userID);
+      this.GetActivities(userID);
       //this.refreshPage();
+  }
+
+  ionViewDidEnter() {
+    this.GetStudentModules(this.userID);
+    this.handleRefresh(event);
+  }
+
+  handleRefresh(event : any) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.target.complete();
+    }, 2000);
   }
 
   token! : any;
@@ -31,6 +44,7 @@ export class ModulesPage implements OnInit {
   selectedModule! : StudentModule;
   presentingElement : any;
   userID! : string;
+  Activities : Activity [] = [];
 
   GetStudentModules(ID : string): void {
     this.userService.GetStudentModule(ID).subscribe(
@@ -42,6 +56,19 @@ export class ModulesPage implements OnInit {
         this.message = "Error retrieving student modules, make sure you are logged in";
       this.setOpen(true);
       });
+  }
+
+  GetActivities(ID: string): void {
+    this.userService.GetActivities(ID).subscribe(
+      (activities: Activity[]) => {
+        // Sort activities by date before assigning them to this.Activities
+        this.Activities = activities.sort((a, b) => (a.date > b.date ? 1 : -1));
+        localStorage.setItem('Activities', JSON.stringify(this.Activities));
+      },
+      (error) => {
+        // Handle error
+      }
+    );
   }
 
   AddModule(): void {
@@ -87,6 +114,14 @@ export class ModulesPage implements OnInit {
   }
 
   DeleteModule(): void {
+    var activities = this.Activities.filter(a=>a.moduleID==this.selectedModule.moduleID);
+    if(activities)
+    {
+      this.message = "Module has activities linked to it";
+      this.setOpen(true);
+      return
+    }
+    else{
     this.userService.DeleteModule(this.selectedModule.moduleID).subscribe(
       ()=>{
         this.message = "Module deleted successfully";
@@ -98,6 +133,7 @@ export class ModulesPage implements OnInit {
         this.message = "Error deleting module, try again later";
       this.setOpen(true);
       });
+    }
   }  
 
   refreshPage(): void {

@@ -30,7 +30,7 @@
   </ion-card>
 </ion-content>
 
-<ion-modal #modal trigger="open-add-modal" [presentingElement]="presentingElement">
+<ion-modal #modal trigger="open-add-module-modal" [presentingElement]="presentingElement">
   <ng-template>
     <ion-header>
       <ion-toolbar>
@@ -44,7 +44,7 @@
       <ion-item>
         <ion-input labelPlacement="stacked" label="Enter the module name" [(ngModel)]="newModule.moduleName" placeholder="Module Name" required="Module Name is required"></ion-input>
       </ion-item><br>
-      <ion-button expand="full" (click)="AddModule()">Add Module</ion-button>
+      <ion-button expand="half" id="add-butt" (click)="AddModule()">Add Module</ion-button>
     </ion-content>
   </ng-template>
 </ion-modal>
@@ -80,7 +80,7 @@
   ></ion-toast>
 
   <ion-fab vertical="bottom" horizontal="end">
-    <ion-fab-button id="open-add-modal">
+    <ion-fab-button id="open-add-module-modal">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     </ion-fab>

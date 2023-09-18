@@ -25,6 +25,20 @@ export class AssessmentsPage implements OnInit {
       
   }
 
+  ionViewDidEnter() {
+    this.GetStudentModules(this.userID);
+    this.GetActivities(this.userID);
+    //this.refreshPage();
+    this.handleRefresh(event);
+  }
+
+  handleRefresh(event : any) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.target.complete();
+    }, 2000);
+  }
+
   token! : any;
   presentingElement : any;
   userID! : string;
