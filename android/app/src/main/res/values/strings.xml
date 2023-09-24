@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PlanUP App</string>
+    <string name="title_activity_main">PlanUP App</string>
+    <string name="package_name">com.nkateko117.PlanUP</string>
+    <string name="custom_url_scheme">com.nkateko117.PlanUP</string>
+</resources>

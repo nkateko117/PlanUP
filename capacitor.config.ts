@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'PlanUP_App',
+  appId: 'com.nkateko117.PlanUP',
+  appName: 'PlanUP App',
   webDir: 'www',
   server: {
     androidScheme: 'https'
