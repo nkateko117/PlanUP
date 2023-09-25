@@ -38,17 +38,19 @@ export class LoginPage implements OnInit {
 
   async ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
-    //const token = localStorage.getItem('token');
-    let token = await this.DeviceStorage.getToken();
-    if(token)
+    const token = localStorage.getItem('token');
+    const userID = this.tokenDecoder.decodeInitialToken2(this.token).userId;
+    const firstName = this.tokenDecoder.decodeInitialToken2(this.token).firstName;
+    if(token && userID.length>5 && this.firstName.length>0)
     {
       this.router.navigate(['tabs/calendar']);
     }
   }
 
   token! : string;
+  emailAddress! : string;
 
-  login() 
+  async login() 
   {
     if(this.email.length<1 || this.password.length<1)
     {
@@ -63,14 +65,14 @@ export class LoginPage implements OnInit {
       password: this.password
     };
   
-    this.userService.Login(loginData)
+    (await this.userService.Login(loginData))
       .subscribe(
         async response => {
           const token = (response as any).result as string; // Extract the token from the 'result' property
-          //localStorage.setItem('token', token);
+          localStorage.setItem('token', token);
           await this.DeviceStorage.setToken(token);
          this.router.navigate(['tabs/calendar']);
-         this.refreshPage();
+        // this.refreshPage();
       },
         async error => {
           this.message = error.error;
@@ -147,5 +149,11 @@ export class LoginPage implements OnInit {
     {
       this.refreshPage();
     }
+  }
+
+  handleRefresh(event : any) {
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
   }
 }

@@ -25,6 +25,11 @@ export class CalendarPage  implements OnInit {
       this.due = 'upcoming';
   }
 
+  ionViewDidEnter() {
+    this.GetStudentModules(this.userID);
+    this.GetActivities(this.userID);
+    this.handleRefresh(event);
+  }
 
   token! : any;
   presentingElement : any;

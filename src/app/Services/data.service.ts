@@ -21,8 +21,8 @@ export class DataService {
     return this.httpClient.post<string>(`${this.apiUrl}Authentication/Register`, user);
   }
 
-  Login(user: LoginVM): Observable<string> {
-    return this.httpClient.post<{ token: string }>(`${this.apiUrl}Authentication/Login`, user)
+  async Login(user: LoginVM): Promise<Observable<string>> {
+    return await this.httpClient.post<{ token: string }>(`${this.apiUrl}Authentication/Login`, user)
     .pipe(
       map(response => response.token)
     );

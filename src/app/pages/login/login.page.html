@@ -1,4 +1,7 @@
 <ion-content class="background" [style.background-image]="'url(\'./assets/images/background1.jpg\')'">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="ion-padding h-100">
     <div class="ion-text-center">
       <ion-card class="login-card">

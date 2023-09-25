@@ -35,11 +35,12 @@ export class AccountPage implements OnInit {
   {
     (await this.userService.logout()).subscribe(
       async response => {
-        ///localStorage.clear();
+      localStorage.clear();
        await this.DeviceStorage.deleteToken();       
         this.router.navigate(['login']);
       },
       async error => {
+        localStorage.clear();
         await this.DeviceStorage.deleteToken();
         this.router.navigate(['login']);
       }
