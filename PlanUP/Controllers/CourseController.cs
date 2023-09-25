@@ -19,6 +19,20 @@ namespace PlanUP.Controllers
             _appDbContext = appDbContext;
         }
 
+        [HttpGet("GetStudentModules")]
+        public async Task<IActionResult> GetAllModules()
+        {
+            try
+            {
+                var results = await _appDbContext.StudentModule.ToListAsync();
+                return Ok(results);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Could not retrieve Student Modules");
+            }
+        }
+
         [HttpGet("GetStudentModules/{userId}")]
         public async Task<IActionResult> GetStudentModules(string userId)
         {

@@ -91,6 +91,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+/*
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -103,5 +104,6 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+*/
 
 app.Run();
