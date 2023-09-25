@@ -19,7 +19,7 @@ namespace PlanUP.Controllers
             _appDbContext = appDbContext;
         }
 
-        [HttpGet("GetStudentModules")]
+        [HttpGet("GetAllModules")]
         public async Task<IActionResult> GetAllModules()
         {
             try
