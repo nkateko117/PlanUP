@@ -33,6 +33,7 @@
     "@fullcalendar/interaction": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
     "@ionic/angular": "^7.0.0",
+    "@ionic/storage-angular": "^4.0.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.1",
     "bootstrap": "^5.3.1",
     "evo-calendar": "^1.1.3",

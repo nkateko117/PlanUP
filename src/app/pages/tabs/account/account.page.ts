@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TokenDecoderService } from 'src/app/Authentication/token-decoder.service';
 import { DataService } from 'src/app/Services/data.service';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/Services/storage.service';
+//import { aW } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-account',
@@ -10,11 +12,13 @@ import { Router } from '@angular/router';
 })
 export class AccountPage implements OnInit {
 
-  constructor(private decodeToke : TokenDecoderService, private userService : DataService, private router: Router) { }
+  constructor(private decodeToke : TokenDecoderService, private userService : DataService, private router: Router,
+    private DeviceStorage : StorageService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
-    this.token=localStorage.getItem('token');
+    //this.token=localStorage.getItem('token');
+    this.token = await this.DeviceStorage.getToken();
       const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
       this.firstName = this.decodeToke.decodeInitialToken2(this.token).firstName;
       this.lastName = this.decodeToke.decodeInitialToken2(this.token).lastName;
@@ -27,15 +31,16 @@ export class AccountPage implements OnInit {
   lastName! : string;
   email! : string;
 
-  logout()
+  async logout()
   {
-    this.userService.logout().subscribe(
-      response => {
-        localStorage.clear();
+    (await this.userService.logout()).subscribe(
+      async response => {
+        ///localStorage.clear();
+       await this.DeviceStorage.deleteToken();       
         this.router.navigate(['login']);
       },
-      error => {
-        localStorage.clear();
+      async error => {
+        await this.DeviceStorage.deleteToken();
         this.router.navigate(['login']);
       }
     );

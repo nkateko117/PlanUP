@@ -14,6 +14,7 @@ import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'; // for dateClick
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import interactionPlugin from '@fullcalendar/interaction'; // for dateClick
     AppRoutingModule,
     NgCalendarModule,
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {

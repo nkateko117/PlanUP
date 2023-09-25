@@ -6,6 +6,7 @@ import { UserVM, LoginVM } from '../Models/user';
 import { StudentModule, Activity } from '../Models/course';
 import { Observable } from 'rxjs';
 import { TokenDecoderService } from '../Authentication/token-decoder.service';
+import { StorageService } from 'src/app/Services/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class DataService {
 
   apiUrl= 'https://planup.azurewebsites.net/api/';
   constructor(private httpClient: HttpClient, private TokenDec : TokenDecoderService,
-    private router: Router) { }
+    private router: Router, private DeviceStorage : StorageService) { }
 
   Register(user: UserVM): Observable<string> {
     return this.httpClient.post<string>(`${this.apiUrl}Authentication/Register`, user);
@@ -27,12 +28,14 @@ export class DataService {
     );
   }
 
-  logout(): Observable<any> {
-    const token: any = localStorage.getItem('token');
+   async logout(): Promise<Observable<any>> {
+   // const token: any = localStorage.getItem('token');
+   let token = await this.DeviceStorage.getToken();
     if(!this.TokenDec.checkTokenExp(token))
     {
-      localStorage.clear();
-      this.router.navigate(['/login']);
+      //localStorage.clear();
+      await this.DeviceStorage.deleteToken();
+      this.router.navigate(['login']);
     }
     return this.httpClient.post<any>(`${this.apiUrl}Authentication/Logout`, null);
   }

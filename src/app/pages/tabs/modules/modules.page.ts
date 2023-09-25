@@ -3,6 +3,7 @@ import { TokenDecoderService } from 'src/app/Authentication/token-decoder.servic
 import { StudentModule, Activity } from 'src/app/Models/course';
 import { DataService } from 'src/app/Services/data.service';
 import { IonModal } from '@ionic/angular';
+import { StorageService } from 'src/app/Services/storage.service';
 
 @Component({
   selector: 'app-modules',
@@ -13,12 +14,13 @@ export class ModulesPage implements OnInit {
   @ViewChild('modal', { static: true }) modal!: IonModal;
   @ViewChild('modal2', { static: true }) modal2!: IonModal;
 
-  constructor(private decodeToke : TokenDecoderService, private userService : DataService) { }
+  constructor(private decodeToke : TokenDecoderService, private userService : DataService, private DeviceStorage : StorageService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     //localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MGViYTZlZC0xNzIwLTRmZDAtYWM2YS01MGI5Mjg2NzNiOGYiLCJ1bmlxdWVfbmFtZSI6Im5rYXRla28ubWFsdWxla2UwM0BnbWFpbC5jb20iLCJGaXJzdE5hbWUiOiJOa2F0ZWtvIiwiTGFzdE5hbWUiOiJNYWx1bGVrZSIsIm5iZiI6MTY5NDM2MDg0MSwiZXhwIjoxNjk0MzcxNjQwLCJpYXQiOjE2OTQzNjA4NDEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxOTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE5MS8ifQ.1-nTlAhGfzRyo_ynEG6C4GaKo0omE2NCJZCjgkXDBh0');
     this.presentingElement = document.querySelector('.ion-page');
-    this.token=localStorage.getItem('token');
+    //this.token=localStorage.getItem('token');
+    this.token = await this.DeviceStorage.getToken();
       const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
       this.userID=userID;
       this.GetStudentModules(userID);
@@ -51,7 +53,7 @@ export class ModulesPage implements OnInit {
     this.userService.GetStudentModule(ID).subscribe(
       (modules: StudentModule[])=>{
         this.Modules=modules;
-        localStorage.setItem('Modules', JSON.stringify(modules));
+        //localStorage.setItem('Modules', JSON.stringify(modules));
       },
       (error)=>{
         this.message = "Error retrieving student modules, make sure you are logged in";
@@ -64,7 +66,7 @@ export class ModulesPage implements OnInit {
       (activities: Activity[]) => {
         // Sort activities by date before assigning them to this.Activities
         this.Activities = activities.sort((a, b) => (a.date > b.date ? 1 : -1));
-        localStorage.setItem('Activities', JSON.stringify(this.Activities));
+       // localStorage.setItem('Activities', JSON.stringify(this.Activities));
       },
       (error) => {
         // Handle error

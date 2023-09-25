@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/Services/data.service';
 import { TokenDecoderService } from 'src/app/Authentication/token-decoder.service';
 import { Activity, StudentModule } from 'src/app/Models/course';
+import { StorageService } from 'src/app/Services/storage.service';
 
 @Component({
   selector: 'app-grades',
@@ -10,11 +11,12 @@ import { Activity, StudentModule } from 'src/app/Models/course';
 })
 export class GradesPage implements OnInit {
 
-  constructor(private decodeToke : TokenDecoderService, private userService : DataService) { }
+  constructor(private decodeToke : TokenDecoderService, private userService : DataService, private DeviceStorage : StorageService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
-    this.token=localStorage.getItem('token');
+    //this.token=localStorage.getItem('token');
+    this.token = await this.DeviceStorage.getToken();
       const userID = this.decodeToke.decodeInitialToken2(this.token).userId;
       this.userID=userID;
       this.GetStudentModules(userID);
@@ -59,7 +61,7 @@ export class GradesPage implements OnInit {
       (activities: Activity[]) => {
         // Sort activities by date before assigning them to this.Activities
         this.Activities = activities.sort((a, b) => (a.date > b.date ? 1 : -1));
-        localStorage.setItem('Activities', JSON.stringify(this.Activities));
+        //localStorage.setItem('Activities', JSON.stringify(this.Activities));
         this.results = activities;
       },
       (error) => {

@@ -4,6 +4,7 @@ import { TokenDecoderService } from 'src/app/Authentication/token-decoder.servic
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular';
+import { StorageService } from 'src/app/Services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -29,19 +30,23 @@ export class LoginPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  constructor(private userService : DataService, private router: Router, private tokenDecoder: TokenDecoderService,) {
+  constructor(private userService : DataService, private router: Router, private tokenDecoder: TokenDecoderService,
+    private DeviceStorage : StorageService) {
     this.email = '';
     this.password = '';
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
+    let token = await this.DeviceStorage.getToken();
     if(token)
     {
       this.router.navigate(['tabs/calendar']);
     }
   }
+
+  token! : string;
 
   login() 
   {
@@ -60,9 +65,10 @@ export class LoginPage implements OnInit {
   
     this.userService.Login(loginData)
       .subscribe(
-        response => {
+        async response => {
           const token = (response as any).result as string; // Extract the token from the 'result' property
-          localStorage.setItem('token', token);
+          //localStorage.setItem('token', token);
+          await this.DeviceStorage.setToken(token);
          this.router.navigate(['tabs/calendar']);
          this.refreshPage();
       },
