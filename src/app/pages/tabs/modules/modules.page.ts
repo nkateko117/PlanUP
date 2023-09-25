@@ -34,6 +34,7 @@ export class ModulesPage implements OnInit {
   handleRefresh(event : any) {
     setTimeout(() => {
       // Any calls to load data go here
+      this.GetStudentModules(this.userID);
       event.target.complete();
     }, 2000);
   }

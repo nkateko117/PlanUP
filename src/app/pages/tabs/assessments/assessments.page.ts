@@ -34,6 +34,7 @@ export class AssessmentsPage implements OnInit {
 
   handleRefresh(event : any) {
     setTimeout(() => {
+      this.GetActivities(this.userID);
       event.target.complete();
     }, 2000);
   }

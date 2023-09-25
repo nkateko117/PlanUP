@@ -12,7 +12,7 @@ import { TokenDecoderService } from '../Authentication/token-decoder.service';
 })
 export class DataService {
 
-  apiUrl= 'https://localhost:7191/api/'; 
+  apiUrl= 'https://planup.azurewebsites.net/api/';
   constructor(private httpClient: HttpClient, private TokenDec : TokenDecoderService,
     private router: Router) { }
 

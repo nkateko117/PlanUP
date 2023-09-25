@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
 <ng-container *ngFor="let activity of results">
 <ion-card [color]="activity.color" class="shorter-card" (click)="selectActivity(activity.activityID)">
   <ion-card-header>

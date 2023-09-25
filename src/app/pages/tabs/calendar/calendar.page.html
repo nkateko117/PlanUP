@@ -13,6 +13,11 @@
 
 <ng-container *ngIf="due=='upcoming'">
 <ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <ng-container *ngFor="let activity of Activities">
     <ng-container *ngIf="calculateDaysRemaining(activity.date)>-1">
     <ion-card [color]="getColor(activity)" class="shorter-card" (click)="selectActivity(activity.activityID)">

@@ -30,6 +30,7 @@ export class GradesPage implements OnInit {
   handleRefresh(event : any) {
     setTimeout(() => {
       // Any calls to load data go here
+      this.GetActivities(this.userID);
       event.target.complete();
     }, 2000);
   }

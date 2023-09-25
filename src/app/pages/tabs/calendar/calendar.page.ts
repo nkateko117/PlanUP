@@ -229,4 +229,12 @@ export class CalendarPage  implements OnInit {
     }
   }
 
+  handleRefresh(event : any) {
+    setTimeout(() => {
+      this.GetStudentModules(this.userID);
+      this.GetActivities(this.userID);
+      event.target.complete();
+    }, 2000);
+  }
+
 }
