@@ -1,0 +1,28 @@
+ /*
+.shorter-card {
+    max-width: 80vw;
+  }
+ */
+ 
+ ion-card {
+  display: flex;
+  flex-flow: column-reverse;
+}
+
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px; 
+  }
+  
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+ 
+  #updateButton{
+    padding-left: 10%;
+  }

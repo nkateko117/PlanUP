@@ -1,0 +1,16 @@
+ion-item {
+    --padding-start: 5%;
+  }
+
+  #updateButton{
+    padding-left: 10%;
+  }
+
+  #add-butt
+  {
+    padding-left: 30%;
+  }
+
+  #updateInput::part(form-field) .input-wrapper .input-placeholder {
+    text-align: center;
+  }
